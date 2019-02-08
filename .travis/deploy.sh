@@ -1,4 +1,3 @@
-#!/bin/bash
 eval "$(ssh-agent -s)" # Start ssh-agent cache
 chmod 600 rsa_deploy # Allow read access to the private key
 ssh-add rsa_deploy # Add the private key to SSH
