@@ -1,0 +1,84 @@
+{{ include("sdb/head.twig") }}
+<br/><br/>
+<div class="container">
+  {% set personalDetail = null %}
+  <!-- Resume Field Group --> 
+  <div class='container'> 
+    {% for block in entry.resume %}
+        {% switch block.type %}
+
+          {% case 'sectionHeader' %}
+            {% if block['size'] == 'small' %} <h3>{{ block['text'] }}</h3> {% endif %}
+            {% if block['size'] == 'medium' %} <h2>{{ block['text'] }}</h2> {% endif %}
+            {% if block['size'] == 'large' %} <h1>{{ block['text'] }}</h1> {% endif %}
+        
+          {% case 'personalDetail' %}
+            {% set personalDetail = block %}
+            <blockquote>
+              <p>
+                <a href="mailto:{{ block['email'] }}">{{ block['email'] }}</a>
+              {{ block['phone'] }}
+              {{ block['city'] }}, {{ block['state'] }}
+              </p>
+            </blockquote>
+            <hr/>
+            <h3>Profile</h3>
+            <p>{{ block['tagLine'] }}</p>
+            <hr/>
+
+          {% case 'skillDescriptor' %}
+            <ul>
+              <li><dl>
+              <dt>{{ block['tagLine'] }}</dt>
+              <dd>{{ block['description'] }}</dd>
+              </dl></li>
+            </ul>
+        {% endswitch %}
+    {% endfor %}
+    <hr/>
+  </div>
+  <!-- End Resume Field Group --> 
+
+  <!-- Experience Field Group --> 
+  <div class='container'>
+    <h3>Experience</h3>
+    {% for block in entry.resumeExperience %}
+      {% switch block.type %}
+        {% case 'company' %}
+          <div>
+            <h4>{{ block['companyName'] }}</h4>
+            <p class="company-description"><i>{{ block['companyDescription'] }}</i></p>
+          </div>
+        {% case 'position' %}
+          <dl>
+            <dd><em>{{ block['positionTitle'] }}</em></dd>
+            <strong>{{ block['startYear'] }} - {{ block['endYear'] }}</strong>
+          </dl>
+        {% case 'experience' %}
+          <ul><li>{{ block['bulletEntry'] }}</li></ul>
+      {% endswitch %}
+    {% endfor %}
+    <hr/>
+  </div>
+
+  <!-- Education: -->
+  <div class='container'> 
+    <h3>Education</h3>
+    {% for school in entry.education %}
+      <p>{{ school.degree }} | {{ school.school }}, {{ school.yearOfCompletion }}</p>
+    {% endfor %}
+    <hr/>
+  </div>
+  <!-- End Education:  --> 
+
+  <!-- End Experience Field Group --> 
+
+  <!-- Footer: -->
+  <div class='container'> 
+    {% if personalDetail %}
+        <p>{{ personalDetail['personalName'] }} — <a href="mailto:{{ personalDetail['email'] }}">{{ personalDetail['email'] }}</a> — {{ personalDetail['phone'] }} — <a href="{{ personalDetail['linkedin'] }}">{{ personalDetail['linkedin'] }}</a></p>
+    {% endif %}
+    <hr/>
+  </div>
+  <!-- End Footer -->
+</div>
