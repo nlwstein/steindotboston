@@ -1,0 +1,6 @@
+language: generic
+before_install:
+- openssl aes-256-cbc -K $encrypted_ba292f01bed3_key -iv $encrypted_ba292f01bed3_iv
+  -in .travis/id_rsa.enc -out .travis/id_rsa -d
+script:
+- .travis/deploy.sh
